@@ -1,11 +1,12 @@
 # Todolist-react
-* AC教案的作業，運用 React 練習如何製作刪除、List 總數。
+* AC教案的階段性作業，運用 React 練習如何製作 Todo List功能。
+* 第一階段，製作 todo 分頁的刪除鍵跟記錄已存在的 Todo List 數量。
 
 ***
 
 ## 功能
 
-* 新增新的 Todo List。
+* 可新增新的 Todo List。
 
 * 可勾選完成的 list。
 
@@ -26,6 +27,8 @@
 * 進入專案資料夾中，在終端輸入 `npm install`，安裝必要檔案。
 
 * 輸入 `npm start` 啟動專案。
+
+* 打開瀏覽器，請輸入 `http://localhost:3000/todo` 進入指定頁面。
 
 * 按下 `ctrl + C` 停止專案。
 
