@@ -8,7 +8,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="login" element={<LoginPage />} />
-          <Route path="todo" element={<TodoPage />} />
+          <Route path="todos" element={<TodoPage />} />
           <Route path="signup" element={<SignUpPage />} />
           {/* 除了上述路徑以外的都導入 homePage */}
           <Route path="*" element={<HomePage />} />

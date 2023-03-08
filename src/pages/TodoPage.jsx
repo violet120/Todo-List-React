@@ -1,49 +1,72 @@
 import { Footer, Header, TodoCollection, TodoInput } from 'components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getTodos, createTodo } from 'api/todos';
+
+
 
 const TodoPage = () => {
   const [inputValue, setInputValue] = useState('')
-  const [todos, setTodos] = useState(dummyTodos)
+  const [todos, setTodos] = useState([])
 
   const handleChange = (value) => {
     setInputValue(value)
   }
-  const handleAddTodo = () => {
+  const handleAddTodo = async () => {
     // 當使用者輸入的內容為空值，就直接 return 不新增
     if(inputValue.length === 0) {
       return;
     }
 
+    try {
+      const data = await createTodo({
+      title: inputValue,
+      isDone: false,
+    })
     setTodos((prevTodos) => {
       return [
         ...prevTodos,
         {
-          id: Math.random() * 100,
-          title: inputValue,
-          isDone: false
+          id: data.id,
+          title: data.title,
+          isDone: data.isDone,
+          isEdit: false
         }
       ]
     })
     // 將輸入的值在新增完畢後從輸入框消失。
     setInputValue('')
+    } catch (error) {
+      console.error(error);
+    }
+    
   }
 
-  const handleKeyDown = () => {
+  const handleKeyDown = async () => {
     if(inputValue.length === 0) {
       return;
     }
 
+    try {
+      const data = await createTodo({
+      title: inputValue,
+      isDone: false,
+    })
     setTodos((prevTodos) => {
       return [
         ...prevTodos,
         {
-          id: Math.random() * 100,
-          title: inputValue,
-          isDone: false
+          id: data.id,
+          title: data.title,
+          isDone: data.isDone,
+          isEdit: false
         }
       ]
     })
+    // 將輸入的值在新增完畢後從輸入框消失。
     setInputValue('')
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const handleToggleDone = (id) => {
@@ -96,6 +119,19 @@ const TodoPage = () => {
       }
     }))
   }
+
+  useEffect(() => {
+    const getTodosAsync = async () => {
+      try {
+        const todos = await getTodos()
+        setTodos(todos.map((todo) => ({...todo, isEdit: false })))
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getTodosAsync()
+  }, [])
+  
   return (
     <div>
       TodoPage
