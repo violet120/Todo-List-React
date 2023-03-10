@@ -1,6 +1,6 @@
 import { Footer, Header, TodoCollection, TodoInput } from 'components';
 import { useEffect, useState } from 'react';
-import { getTodos, createTodo } from 'api/todos';
+import { getTodos, createTodo, patchTodo, deleteTodo } from 'api/todos';
 
 
 
@@ -68,9 +68,15 @@ const TodoPage = () => {
       console.error(error);
     }
   }
-
-  const handleToggleDone = (id) => {
-    setTodos((prveTodos) => {
+  // 切換完成/未完成狀態
+  const handleToggleDone = async (id) => {
+    const currentTodo = todos.find((todo) => todo.id === id)
+    try {
+      await patchTodo({
+        id,
+        isDone: !currentTodo.isDone
+      })
+      setTodos((prveTodos) => {
       return prveTodos.map((todo) => {
         if(todo.id === id) {
           return {
@@ -81,6 +87,10 @@ const TodoPage = () => {
         return todo
       })
     })
+    } catch (error) {
+      console.error(error);
+    }
+    
   }
 
   const handleChangeMode = ({id, isEdit}) => {
@@ -97,27 +107,44 @@ const TodoPage = () => {
     })
   }
 
-  const handleSave = ({id, title}) => {
-    setTodos((prevTodos) => {
-      return prevTodos.map((todo) => {
-        if(todo.id === id) {
-          return {
-            ...todo,
-            title,
-            isEdit: false
-          }
-        }
-        return todo
+  // 編輯後保存
+  const handleSave = async ({id, title}) => {
+    try {
+      await patchTodo({
+        id,
+        title
       })
-    })
-  }
 
-  const handleDelete = (id) => {
-    setTodos(todos.filter((prevTodos) => {
-      if(prevTodos.id !== id) {
-        return prevTodos
-      }
-    }))
+      setTodos((prevTodos) => {
+        return prevTodos.map((todo) => {
+          if(todo.id === id) {
+            return {
+              ...todo,
+              title,
+              isEdit: false
+            }
+          }
+          return todo
+        })
+      })
+    } catch (error) {
+      console.error(error);
+    }
+    
+  }
+  // 刪除
+  const handleDelete = async (id) => {
+    try {
+      await deleteTodo(id)
+      setTodos(todos.filter((prevTodos) => {
+        if(prevTodos.id !== id) {
+          return prevTodos
+        }
+      }))
+    } catch (error) {
+      console.error(error);
+    }
+    
   }
 
   useEffect(() => {
