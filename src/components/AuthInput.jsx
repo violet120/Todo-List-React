@@ -22,14 +22,15 @@ const StyledInput = styled.input`
   border-radius: 0px;
 `;
 
-const AuthInput = ({type, label, placeholder, onChange}) => {
+const AuthInput = ({type, label, value, placeholder, onChange}) => {
   return (
     <StyledContainer>
       <StyledLabel>{label}</StyledLabel>
       <StyledInput 
         // 使用 || 是為了 props 沒有傳入任何值時，可以有個預設值
         type={type || "text"}
-        placeholder={placeholder}
+        value={value || ''}
+        placeholder={placeholder || ''}
         onChange={(event) => onChange?.(event.target.value)}
       />
     </StyledContainer>
