@@ -26,7 +26,7 @@ const Header = ({ username }) => {
     <StyledHeader>
       <h3>Tasks</h3>
       <StyledGreetingText>
-        Hi <span>{username}</span>
+        Hi <span>{username}</span> 登入
       </StyledGreetingText>
     </StyledHeader>
   );
