@@ -140,11 +140,7 @@ const TodoPage = () => {
   const handleDelete = async (id) => {
     try {
       await deleteTodo(id)
-      setTodos(todos.filter((prevTodos) => {
-        if(prevTodos.id !== id) {
-          return prevTodos
-        }
-      }))
+      setTodos(todos.filter((todos) => todos.id !== id))
     } catch (error) {
       console.error(error);
     }
